@@ -8,10 +8,12 @@ import {MaterialModule} from '@angular/material'; //Angular material modules
 import 'hammerjs'; //hammer js for animated icons
 
 import { AppComponent } from './app.component';
+import { NavBarComponent } from './nav-bar/nav-bar.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NavBarComponent
   ],
   imports: [
     BrowserModule,
