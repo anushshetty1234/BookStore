@@ -27,6 +27,7 @@ public class BookStoreApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		
+		
 		  User user1=new User();
 		  user1.setUserName("test");
 		  user1.setPassword(SecurityUtility.passwordEncoder().encode("test"));
@@ -34,14 +35,15 @@ public class BookStoreApplication implements CommandLineRunner {
 		  user1.setEnabled(true);
 		  user1.setFirstName("testFirstName");
 		  user1.setLastName("testLastName");
-		  user1.setPhone("123456789"); 
+		  user1.setPhone("123456789");
 		  Role role1=new Role();
-		  role1.setRoleId((long)1); 
+		  role1.setRoleId((long)1);
 		  role1.setRoleName("ROLE_USER");
 		  UserRole userRole1=new UserRole(user1,role1);
 		  Set<UserRole> userRoles1=new HashSet<UserRole>();
-		  userRoles1.add(userRole1); 
+		  userRoles1.add(userRole1);
 		  userService.CreateUser(user1, userRoles1);
+		 
 		  
 		  User user2=new User(); 
 		  user2.setUserName("admin");
