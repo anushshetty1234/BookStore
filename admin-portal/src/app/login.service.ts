@@ -21,12 +21,21 @@ export class LoginService {
 
   checkSession(){
     let url="http://localhost:8181/checkSession";
-    console.log("pp=="+localStorage.getItem('xAuthToken'));
     let header=new Headers({
       'X-Auth-Token':  localStorage.getItem('xAuthToken')
     });
  return this.http.get(url,{headers:header});
   }
+
+
+  logout(){
+    let url="http://localhost:8181/user/logout";
+    let header=new Headers({
+      'X-Auth-Token':  localStorage.getItem('xAuthToken')
+    });
+ return this.http.post(url,{},{headers:header});
+  }
+
 
 
 }

@@ -14,13 +14,17 @@ import { LoginComponent } from './login/login.component';
 
 import { LoginService } from './login.service';
 import { AppRoutingModule } from './app-routing.module';
+import { AddNewBookComponent } from './add-new-book/add-new-book.component';
+import { AddBookService } from './add-book.service';
+import { UploadServiceService } from './upload-service.service';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     NavBarComponent,
-    LoginComponent
+    LoginComponent,
+    AddNewBookComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +33,7 @@ import { AppRoutingModule } from './app-routing.module';
     MaterialModule,
     AppRoutingModule
   ],
-  providers: [LoginService],
+  providers: [LoginService,AddBookService,UploadServiceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

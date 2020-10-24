@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { LoginService } from '../login.service';
 
 @Component({
@@ -10,7 +11,7 @@ export class NavBarComponent implements OnInit {
 
   private loggedIn:boolean=false;
 
-  constructor(private loginService:LoginService) { }
+  constructor(private loginService:LoginService,private router:Router) { }
 
   ngOnInit() {
     this.loginService.checkSession().subscribe(
@@ -21,6 +22,20 @@ export class NavBarComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+
+  logout(){
+
+    this.loginService.logout().subscribe(
+      res=>{
+        location.reload();
+      },
+      error=>{
+        console.log(error);
+      }
+    );
+    this.router.navigate(['']);
   }
 
 }

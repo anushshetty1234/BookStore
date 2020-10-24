@@ -1,0 +1,16 @@
+package com.bookstore.repository;
+
+import java.util.List;
+
+import org.springframework.data.repository.CrudRepository;
+
+import com.bookstore.domain.Book;
+
+public interface BookRepository extends CrudRepository<Book, Long>{
+
+	void deleteById(Long id);
+	Book findBookById(Long id);
+	List<Book> findByTitleContaining(String title);
+	
+	
+}
