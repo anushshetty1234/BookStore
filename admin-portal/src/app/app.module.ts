@@ -17,6 +17,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AddNewBookComponent } from './add-new-book/add-new-book.component';
 import { AddBookService } from './add-book.service';
 import { UploadServiceService } from './upload-service.service';
+import { BookListComponent, DialogComponent } from './book-list/book-list.component';
+import { GetBookListService } from './get-book-list.service';
+import { ViewBookComponent } from './view-book/view-book.component';
+import { GetBookService } from './get-book.service';
+import { EditBookComponent } from './edit-book/edit-book.component';
+import { EditBookService } from './edit-book.service';
+import { RemoveBookService } from './remove-book.service';
 
 
 @NgModule({
@@ -24,8 +31,13 @@ import { UploadServiceService } from './upload-service.service';
     AppComponent,
     NavBarComponent,
     LoginComponent,
-    AddNewBookComponent
+    AddNewBookComponent,
+    BookListComponent,
+    ViewBookComponent,
+    EditBookComponent,
+    DialogComponent
   ],
+  entryComponents: [DialogComponent],
   imports: [
     BrowserModule,
     FormsModule,
@@ -33,7 +45,9 @@ import { UploadServiceService } from './upload-service.service';
     MaterialModule,
     AppRoutingModule
   ],
-  providers: [LoginService,AddBookService,UploadServiceService],
+  providers: [LoginService,AddBookService,UploadServiceService
+              ,GetBookListService,GetBookService,EditBookService
+              ,RemoveBookService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

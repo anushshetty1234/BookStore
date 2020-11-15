@@ -31,9 +31,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	private static final String[] PUBLIC_MATHCES= {
 			"/css/**",
 			"/js/**",
-			"/image/**",
+			"/images/**",
 			"/book/**",
-			"/user/**"
+			"/user/**",
+			"/media/**"
 	};
 
 	@Override

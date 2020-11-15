@@ -2,6 +2,7 @@
 
 /*added theme from angular material*/
 @import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
+@import '../node_modules/font-awesome/css/font-awesome.min.css';
 
 
 .box {

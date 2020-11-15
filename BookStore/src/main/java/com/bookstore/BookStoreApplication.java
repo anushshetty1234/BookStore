@@ -2,11 +2,14 @@ package com.bookstore;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.CacheControl;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 import com.bookstore.config.SecurityUtility;
 import com.bookstore.domain.User;
@@ -20,9 +23,12 @@ public class BookStoreApplication implements CommandLineRunner {
 	@Autowired
 	UserService userService;
 	
+
+	
 	public static void main(String[] args) {
 		SpringApplication.run(BookStoreApplication.class, args);
 	}
+	
 
 	@Override
 	public void run(String... args) throws Exception {

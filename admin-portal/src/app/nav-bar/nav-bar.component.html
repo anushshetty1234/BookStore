@@ -2,7 +2,7 @@
   <h3> Admin Portal</h3>
   <span class="example-spacer"></span>
   <span *ngIf="loggedIn" >
-  <a md-button>View book list</a>
+  <a md-button routerLink="/bookList">View book list</a>
   <a md-button routerLink="/addNewBook">Add book</a>
   <a md-button (click)="logout()">Logout</a>
   </span>
