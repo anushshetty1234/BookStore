@@ -39,7 +39,7 @@ public class User implements UserDetails,Serializable {
 	private String lastName;
 	private String email;
 	private String phone;
-	private boolean enabled;
+	private boolean enabled=true;
 	
 	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JsonIgnore

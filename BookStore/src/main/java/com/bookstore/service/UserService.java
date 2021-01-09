@@ -8,5 +8,10 @@ import com.bookstore.domain.security.UserRole;
 public interface UserService {
 
 	User CreateUser(User user,Set<UserRole> userRoles);
+	public User findUserByUsername(String username);
+	public User findUserByEmail(String email);
+	public void save(User user);
+	public User findById(Long id);
+	
 	
 }
