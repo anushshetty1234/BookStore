@@ -3,6 +3,7 @@ package com.bookstore.domain;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -44,6 +45,10 @@ public class User implements UserDetails,Serializable {
 	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JsonIgnore
 	private Set<UserRole> userRoles=new HashSet<UserRole>();
+	
+	
+	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+	private List<UserPayment> userPaymentList;
 	
 	
 	public Long getId() {
@@ -97,6 +102,13 @@ public class User implements UserDetails,Serializable {
 	public void setUserRoles(Set<UserRole> userRoles) {
 		this.userRoles = userRoles;
 	}
+	public List<UserPayment> getUserPaymentList() {
+		return userPaymentList;
+	}
+	public void setUserPaymentList(List<UserPayment> userPaymentList) {
+		this.userPaymentList = userPaymentList;
+	}
+	
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

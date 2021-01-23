@@ -1,5 +1,6 @@
 package com.bookstore.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -9,8 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bookstore.domain.User;
+import com.bookstore.domain.UserBilling;
+import com.bookstore.domain.UserPayment;
 import com.bookstore.domain.security.Role;
 import com.bookstore.domain.security.UserRole;
+import com.bookstore.repository.BillingRepository;
+import com.bookstore.repository.PaymentRepository;
 import com.bookstore.repository.RoleRepository;
 import com.bookstore.repository.UserRepository;
 import com.bookstore.service.UserService;
@@ -25,6 +30,12 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	RoleRepository roleRepository;
+	
+	@Autowired
+	BillingRepository billingRepository;
+	
+	@Autowired
+	PaymentRepository paymentRepository;
 	
 	@Transactional
 	@Override
@@ -42,7 +53,9 @@ public class UserServiceImpl implements UserService {
 			  }
 			  
 			  user.getUserRoles().addAll(userRoles);
-		
+			  
+			  user.setUserPaymentList(new ArrayList<UserPayment>());
+			  
 			localUser=userRepository.save(user);
 		}
 		
@@ -66,6 +79,29 @@ public class UserServiceImpl implements UserService {
 	public User findById(Long id) {
 		return userRepository.findUserById(id);
 	}
+
+	@Override
+	public void uodateUserPaymentInfo(User user, UserBilling userBilling, UserPayment userPayment) {
+		userRepository.save(user);
+		billingRepository.save(userBilling);
+		paymentRepository.save(userPayment);
+		
+		
+	}
+	
+	@Override
+	public void uodateUserBilling(User user, UserBilling userBilling, UserPayment userPayment) {
+		userBilling.setUserPayment(userPayment);
+		userPayment.setUserBilling(userBilling);
+		userPayment.setDefaultPayment(true);
+		userPayment.setUser(user);
+		
+		user.getUserPaymentList().add(userPayment);
+		userRepository.save(user);
+		
+		
+	}
+	
 	
 	
 	

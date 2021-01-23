@@ -3,6 +3,8 @@ package com.bookstore.service;
 import java.util.Set;
 
 import com.bookstore.domain.User;
+import com.bookstore.domain.UserBilling;
+import com.bookstore.domain.UserPayment;
 import com.bookstore.domain.security.UserRole;
 
 public interface UserService {
@@ -13,5 +15,7 @@ public interface UserService {
 	public void save(User user);
 	public User findById(Long id);
 	
+	void uodateUserPaymentInfo(User user,UserBilling userBilling,UserPayment userPayment);
+	void uodateUserBilling(User user, UserBilling userBilling, UserPayment userPayment);
 	
 }

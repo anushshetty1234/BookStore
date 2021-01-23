@@ -1,6 +1,7 @@
 package com.bookstore.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bookstore.config.SecurityUtility;
 import com.bookstore.domain.User;
+import com.bookstore.domain.UserPayment;
 import com.bookstore.domain.security.Role;
 import com.bookstore.domain.security.UserRole;
 import com.bookstore.service.UserService;
@@ -74,6 +76,9 @@ public class UserController {
 		
 		UserRole userRole = new UserRole(user, role);
 		Set<UserRole> userRoles=new HashSet<UserRole>();
+		
+		user.setUserPaymentList(new ArrayList<UserPayment>());
+		
 		userRoles.add(userRole);
 		
 		userService.CreateUser(user, userRoles);
@@ -170,8 +175,12 @@ public class UserController {
 	
 	@RequestMapping("/getCurrentUser")
 	public User getCurrentUser(Principal principal) {
-		String username = principal.getName();
 		User user = null;
+		String username = null;
+		if(principal != null)
+		{
+			username = principal.getName();
+		}
 		if(username != null) {
 			user = userService.findUserByUsername(principal.getName());
 		}

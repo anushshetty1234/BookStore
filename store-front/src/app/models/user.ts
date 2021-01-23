@@ -1,3 +1,4 @@
+import { UserPayment } from "./user-payment";
 
 
 export class User {
@@ -9,5 +10,6 @@ export class User {
 	public email: string
 	public phone: string;
 	public enabled: boolean;
+	public userPaymentList: UserPayment[];
 }
 

@@ -14,6 +14,7 @@ import { MyAccountComponent } from './my-account/my-account.component';
 import { LoginService } from './login.service';
 import { UserService } from './user.service';
 import { MyProfileComponent } from './my-profile/my-profile.component';
+import { PaymentService } from './payment.service';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { MyProfileComponent } from './my-profile/my-profile.component';
     MaterialModule,
     AppRoutingModule
   ],
-  providers: [LoginService,UserService],
+  providers: [LoginService,UserService,PaymentService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
