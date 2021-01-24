@@ -1,6 +1,7 @@
 package com.bookstore.serviceImpl;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bookstore.domain.User;
 import com.bookstore.domain.UserBilling;
 import com.bookstore.domain.UserPayment;
+import com.bookstore.domain.UserShipping;
 import com.bookstore.domain.security.Role;
 import com.bookstore.domain.security.UserRole;
 import com.bookstore.repository.BillingRepository;
@@ -80,6 +82,7 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findUserById(id);
 	}
 
+	//not used anywhere 
 	@Override
 	public void uodateUserPaymentInfo(User user, UserBilling userBilling, UserPayment userPayment) {
 		userRepository.save(user);
@@ -95,7 +98,11 @@ public class UserServiceImpl implements UserService {
 		userPayment.setUserBilling(userBilling);
 		userPayment.setDefaultPayment(true);
 		userPayment.setUser(user);
-		
+		List<UserPayment> paymentList = user.getUserPaymentList();
+		for(UserPayment eachPaymnet:paymentList) {
+			eachPaymnet.setDefaultPayment(false);
+			paymentRepository.save(eachPaymnet);
+		}	
 		user.getUserPaymentList().add(userPayment);
 		userRepository.save(user);
 		

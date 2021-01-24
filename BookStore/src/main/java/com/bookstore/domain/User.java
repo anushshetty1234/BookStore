@@ -50,6 +50,8 @@ public class User implements UserDetails,Serializable {
 	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
 	private List<UserPayment> userPaymentList;
 	
+	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+	private List<UserShipping> userShippingList;
 	
 	public Long getId() {
 		return id;
@@ -108,7 +110,15 @@ public class User implements UserDetails,Serializable {
 	public void setUserPaymentList(List<UserPayment> userPaymentList) {
 		this.userPaymentList = userPaymentList;
 	}
+	public List<UserShipping> getUserShippingList() {
+		return userShippingList;
+	}
+	public void setUserShippingList(List<UserShipping> userShippingList) {
+		this.userShippingList = userShippingList;
+	}
 	
+	
+	//spring security related methods
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -34,21 +34,16 @@ public class PaymentServiceImpl implements PaymentService{
 
 	@Override
 	public void setDefaultCard(Long id, User user) {
-		List<UserPayment> listUserPayment = paymentRepo.findAll();
-		for(UserPayment userPayment:listUserPayment) {
-			if(userPayment.getUser().getId() == user.getId()) {
-				if(userPayment.getId() == id) {
-					userPayment.setDefaultPayment(true);
-					LOG.info("default set for-"+id);
-				}
-				else {
-					LOG.info("default not set for-"+id);
-					userPayment.setDefaultPayment(false);
-				}
-				paymentRepo.save(userPayment);
+		List<UserPayment> listUserPayment = user.getUserPaymentList();
+		for(UserPayment eachPayment: listUserPayment){
+			if(eachPayment.getId() == id) {
+				eachPayment.setDefaultPayment(true);
 			}
+			else {
+				eachPayment.setDefaultPayment(false);
+			}
+			paymentRepo.save(eachPayment);
 		}
-		
 	}
 
 	

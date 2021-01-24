@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { error } from 'protractor';
 import { AppConst } from '../constants/app-const';
 import { LoginService } from '../login.service';
 import { User } from '../models/user';
 import { UserBilling } from '../models/user-billing';
 import { UserPayment } from '../models/user-payment';
+import { UserShipping } from '../models/user-shipping';
 import { PaymentService } from '../payment.service';
+import { ShippingService } from '../shipping.service';
 import { UserService } from '../user.service';
 
 @Component({
@@ -27,23 +30,27 @@ export class MyProfileComponent implements OnInit {
 	private incorrectPassword: boolean;
 	private currentPassword: string;
 
-
+  //tabs
   private selectedProfileTab: number = 0;
   private selectedBillingTab: number = 0;
+  private selectedShippingTab: number = 0;
 
+  //payment
   private userPayment: UserPayment = new UserPayment();
 	private userBilling: UserBilling = new UserBilling();
   private userPaymentList: UserPayment[] =[];
   private defaultPaymentSet:boolean;
 	private defaultUserPaymentId: number;
-  private stateList: string[] = ['karnataka','maharahstra'];
+  private stateList: string[] = ['karnataka','maharahstra','gujrat'];
   
-  
-
-
+  //shipping
+  private defaultShippingSet:boolean;
+  private userShippingList: UserShipping[] = [];
+  private defaultUserShippingId: number;
+  private userShipping: UserShipping = new UserShipping();
   
   constructor(private userService:UserService,private loginService:LoginService,
-              private paymentService:PaymentService,private router:Router) { }
+              private paymentService:PaymentService,private shippingService:ShippingService,private router:Router) { }
 
   onUpdateUserInfo(){
       this.user.password = this.currentPassword;
@@ -67,16 +74,23 @@ export class MyProfileComponent implements OnInit {
       res=>{
           this.user = res.json();
           this.userPaymentList = this.user.userPaymentList;
+          this.userShippingList = this.user.userShippingList;
           
           for (let index in this.userPaymentList) {
             if(this.userPaymentList[index].defaultPayment) {
-              this.defaultUserPaymentId=this.userPaymentList[index].id;
+              this.defaultUserPaymentId = this.userPaymentList[index].id;
+              break;
+            }
+          }
+
+          for (let index in this.userShippingList) {
+            if(this.userShippingList[index].userShippingDefault) {
+              this.defaultUserShippingId = this.userShippingList[index].id;
               break;
             }
           }
         
-
-          this.dataFetched=true;
+          this.dataFetched = true;
       },
       error=>{
         console.log(error);
@@ -152,4 +166,52 @@ export class MyProfileComponent implements OnInit {
       );
   }
   
+
+//shipping related funtions
+
+  selectedShippingChange(tabNumber:number){ 
+      this.selectedShippingTab = tabNumber;
+  }
+
+  onUpdateShipping(userShippingUpdate:UserShipping){
+    this.userShipping = userShippingUpdate;
+    this.selectedShippingTab = 1;
+  }
+
+  onRemoveShipping(id:number){
+    this.shippingService.removeShipping(id).subscribe(
+      res=>{
+        this.getCurrentUser();
+      },
+      error=>{
+        console.log(error.text());
+      }
+    );
+  }
+
+  onNewShipping(){
+    this.shippingService.addNewShipping(this.userShipping).subscribe(
+      res=>{
+        this.userShipping = new UserShipping();
+        this.getCurrentUser();
+        this.selectedShippingTab=0;
+      },
+      error=>{
+        console.log(error);
+      }
+    );
+  }
+
+  setDefaultShipping(){
+    this.shippingService.setDefault(this.defaultUserShippingId).subscribe(
+      res=>{
+        this.getCurrentUser();
+        this.defaultShippingSet = true;
+      },
+      error=>{
+        console.log(error);
+      }
+    );
+  }
+
 }

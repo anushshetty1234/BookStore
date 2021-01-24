@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bookstore.config.SecurityUtility;
 import com.bookstore.domain.User;
 import com.bookstore.domain.UserPayment;
+import com.bookstore.domain.UserShipping;
 import com.bookstore.domain.security.Role;
 import com.bookstore.domain.security.UserRole;
 import com.bookstore.service.UserService;
@@ -78,6 +79,7 @@ public class UserController {
 		Set<UserRole> userRoles=new HashSet<UserRole>();
 		
 		user.setUserPaymentList(new ArrayList<UserPayment>());
+		user.setUserShippingList(new ArrayList<UserShipping>());
 		
 		userRoles.add(userRole);
 		
