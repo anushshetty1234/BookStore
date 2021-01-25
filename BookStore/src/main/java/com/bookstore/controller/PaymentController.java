@@ -36,7 +36,7 @@ public class PaymentController {
 			String username = principal.getName();
 			User user = userServiceImpl.findUserByUsername(username);
 			UserBilling userBilling = userPayment.getUserBilling();
-			userServiceImpl.uodateUserBilling(user,userBilling,userPayment);
+			paymentServiceImpl.updateUserPayment(user,userBilling,userPayment);
 			return new ResponseEntity("Your card has been successfully saved",HttpStatus.OK);
 		}
 		return new ResponseEntity("Card not saved",HttpStatus.BAD_REQUEST);

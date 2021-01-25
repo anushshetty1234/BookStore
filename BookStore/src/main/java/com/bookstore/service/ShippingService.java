@@ -9,4 +9,5 @@ public interface ShippingService {
 	void addNewShippingToUser(UserShipping userShipping,User user);
 	void removeShippingData(Long id);
 	void setDefaultShippingData(Long id,User user);
+	void updateExistingShipping(UserShipping userShipping,User user);
 }

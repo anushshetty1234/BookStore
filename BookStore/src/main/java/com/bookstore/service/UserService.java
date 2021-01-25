@@ -15,7 +15,4 @@ public interface UserService {
 	public void save(User user);
 	public User findById(Long id);
 	
-	void uodateUserPaymentInfo(User user,UserBilling userBilling,UserPayment userPayment);
-	void uodateUserBilling(User user, UserBilling userBilling, UserPayment userPayment);
-	
 }

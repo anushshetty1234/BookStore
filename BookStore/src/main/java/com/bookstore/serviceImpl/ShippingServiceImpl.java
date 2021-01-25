@@ -29,14 +29,18 @@ public class ShippingServiceImpl implements ShippingService{
 	@Override
 	public void addNewShippingToUser(UserShipping userShipping, User user) {
 		userShipping.setUser(user);
-		userShipping.setUserShippingDefault(true);
-		List<UserShipping> shippingList = user.getUserShippingList();
-		for(UserShipping eachShipping:shippingList) {
-			eachShipping.setUserShippingDefault(false);
-			shippingRepo.save(eachShipping);
-		}	
-		user.getUserShippingList().add(userShipping);
-		userServiceImpl.save(user);
+		if(userShipping.getId() != null) {
+			updateExistingShipping(userShipping,user);
+		}
+		else {
+			userShipping.setUserShippingDefault(true);
+			List<UserShipping> shippingList = user.getUserShippingList();
+			for(UserShipping eachShipping:shippingList) {
+				eachShipping.setUserShippingDefault(false);
+			}	
+			user.getUserShippingList().add(userShipping);
+			userServiceImpl.save(user);
+		}
 	}
 
 	@Override
@@ -56,6 +60,13 @@ public class ShippingServiceImpl implements ShippingService{
 			}
 			shippingRepo.save(eachShipping);
 		}
+	}
+
+	@Override
+	public void updateExistingShipping(UserShipping userShipping, User user) {
+		userShipping.setUser(user);
+		shippingRepo.save(userShipping);
+		userServiceImpl.save(user);
 	}
 	
 	

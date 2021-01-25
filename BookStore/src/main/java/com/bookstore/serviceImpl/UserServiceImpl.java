@@ -33,12 +33,6 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	RoleRepository roleRepository;
 	
-	@Autowired
-	BillingRepository billingRepository;
-	
-	@Autowired
-	PaymentRepository paymentRepository;
-	
 	@Transactional
 	@Override
 	public User CreateUser(User user, Set<UserRole> userRoles) {
@@ -80,36 +74,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User findById(Long id) {
 		return userRepository.findUserById(id);
-	}
-
-	//not used anywhere 
-	@Override
-	public void uodateUserPaymentInfo(User user, UserBilling userBilling, UserPayment userPayment) {
-		userRepository.save(user);
-		billingRepository.save(userBilling);
-		paymentRepository.save(userPayment);
-		
-		
-	}
-	
-	@Override
-	public void uodateUserBilling(User user, UserBilling userBilling, UserPayment userPayment) {
-		userBilling.setUserPayment(userPayment);
-		userPayment.setUserBilling(userBilling);
-		userPayment.setDefaultPayment(true);
-		userPayment.setUser(user);
-		List<UserPayment> paymentList = user.getUserPaymentList();
-		for(UserPayment eachPaymnet:paymentList) {
-			eachPaymnet.setDefaultPayment(false);
-			paymentRepository.save(eachPaymnet);
-		}	
-		user.getUserPaymentList().add(userPayment);
-		userRepository.save(user);
-		
-		
-	}
-	
-	
-	
+	}	
 	
 }
