@@ -17,6 +17,10 @@ import { MyProfileComponent } from './my-profile/my-profile.component';
 import { PaymentService } from './payment.service';
 import { ShippingService } from './shipping.service';
 import { BookListComponent } from './book-list/book-list.component';
+import {  DataTableModule } from 'angular2-datatable';
+import { DataFilterPipe } from './book-list/data-filter.pipe';
+import { BookService } from './book.service';
+import { BookDetailComponent } from './book-detail/book-detail.component';
 
 @NgModule({
   declarations: [
@@ -25,16 +29,19 @@ import { BookListComponent } from './book-list/book-list.component';
     NavBarComponent,
     MyAccountComponent,
     MyProfileComponent,
-    BookListComponent
+    BookListComponent,
+    DataFilterPipe,
+    BookDetailComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     MaterialModule,
-    AppRoutingModule
+    AppRoutingModule,
+    DataTableModule
   ],
-  providers: [LoginService,UserService,PaymentService,ShippingService],
+  providers: [LoginService,UserService,PaymentService,ShippingService,BookService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
