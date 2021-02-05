@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http } from '@angular/http';
+import { Headers, Http, URLSearchParams } from '@angular/http';
 import { AppConst } from './constants/app-const';
 
 @Injectable()
@@ -30,5 +30,14 @@ export class BookService {
     return this.http.get(url,{headers:header});
   }
 
+  searchWithKeyword(keyword:string){
+    let url = this.serverPath+'/book/search?keyword='+keyword;
+
+    let header=new Headers({
+      "Content-Type":  "application/json",
+    });
+
+     return this.http.get(url,{headers:header});
+  }
 
 }

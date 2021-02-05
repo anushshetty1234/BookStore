@@ -21,6 +21,8 @@ import {  DataTableModule } from 'angular2-datatable';
 import { DataFilterPipe } from './book-list/data-filter.pipe';
 import { BookService } from './book.service';
 import { BookDetailComponent } from './book-detail/book-detail.component';
+import { SearchFilterPipe } from './nav-bar/search-filter.pipe';
+
 
 @NgModule({
   declarations: [
@@ -31,7 +33,8 @@ import { BookDetailComponent } from './book-detail/book-detail.component';
     MyProfileComponent,
     BookListComponent,
     DataFilterPipe,
-    BookDetailComponent
+    BookDetailComponent,
+    SearchFilterPipe
   ],
   imports: [
     BrowserModule,

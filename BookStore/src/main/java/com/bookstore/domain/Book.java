@@ -19,6 +19,7 @@ public class Book implements Serializable{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
+	@Column(name = "title")
 	private String title;
 	private String author;
 	private String publisher;

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BookService } from '../book.service';
 import { AppConst } from '../constants/app-const';
 import { Book } from '../models/book';
@@ -23,9 +23,14 @@ export class BookListComponent implements OnInit {
   private selectedBook:Book;
   private removeBookList:Book[]=new Array();
 
-  constructor(private boookService:BookService,private route:Router) { }
+  constructor(private boookService:BookService,private route:Router,private activatedRoute:ActivatedRoute) { }
 
   ngOnInit() {
+    this.activatedRoute.queryParams.subscribe(
+      params=>{ 
+        this.filterQuery = params['searchFilter'];
+      }
+    );
     this.getBookList();
   }
 

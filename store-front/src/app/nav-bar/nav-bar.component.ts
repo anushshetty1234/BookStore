@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { BookService } from '../book.service';
 import { LoginService } from '../login.service';
+import { Book } from '../models/book';
 
 @Component({
   selector: 'app-nav-bar',
@@ -9,8 +12,10 @@ import { LoginService } from '../login.service';
 export class NavBarComponent implements OnInit {
 
   private loggedIn=false;
+  private keyword:string="";
+  private bookList:Book[] = new Array();
 
-  constructor(private loginService:LoginService) { }
+  constructor(private loginService:LoginService,private bookService:BookService,private route:Router) { }
 
 
   logout(){
@@ -34,5 +39,30 @@ export class NavBarComponent implements OnInit {
       }
     );
   }
+
+
+  onSearchByTitle(){
+    console.log(this.keyword.trim().length>0);
+    if(this.keyword.trim().length >0){
+    this.bookService.searchWithKeyword(this.keyword.trim()).subscribe(
+      res=>{
+        this.bookList = res.json();
+        if(this.bookList.length!=null && this.bookList.length >0 ){
+          if(this.bookList.length == 1){
+              this.route.navigate(['/viewBook',this.bookList[0].id]);
+          }
+          else{
+              this.route.navigate(['/bookList'],{queryParams:{searchFilter:this.keyword.trim()}});
+          }
+        }
+      },
+      error=>{
+        console.log(error);
+      }
+    );
+    }
+  }
+
+
 
 }

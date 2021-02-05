@@ -12,4 +12,5 @@ public interface BookService {
 	Book findById(Long id);
 	List<Book> blurrySearch(String title);
 	void removeBook(Long id);
+	List<Book> searchBooksWithKeyword(String keyword);
 }

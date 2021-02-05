@@ -61,6 +61,13 @@ public class BookServiceImpl implements BookService{
 	public void removeBook(Long id) {
 		bookRepo.deleteById(id);
 	}
+
+	@Override
+	public List<Book> searchBooksWithKeyword(String keyword) {
+		return bookRepo.filterBookListUsingKeyword(keyword);
+	}
 	
 
+	
+	
 }
