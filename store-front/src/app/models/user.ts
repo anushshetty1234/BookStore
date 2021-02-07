@@ -1,3 +1,4 @@
+import { ShoppingCart } from "./shopping-cart";
 import { UserPayment } from "./user-payment";
 import { UserShipping } from "./user-shipping";
 
@@ -13,5 +14,6 @@ export class User {
 	public enabled: boolean;
 	public userPaymentList: UserPayment[];
 	public userShippingList: UserShipping[];
+	public shoppingCart: ShoppingCart;
 }
 

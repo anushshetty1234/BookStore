@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BookService } from '../book.service';
 import { AppConst } from '../constants/app-const';
 import { Book } from '../models/book';
+import { ShoppingCartService } from '../shopping-cart.service';
 
 @Component({
   selector: 'app-book-detail',
@@ -20,7 +21,8 @@ export class BookDetailComponent implements OnInit {
 	private addBookSuccess: boolean = false;
 	private notEnoughStock:boolean = false;
 
-  constructor(private boookService:BookService,private activatedRoute:ActivatedRoute) { }
+  constructor(private boookService:BookService,private activatedRoute:ActivatedRoute
+              ,private shoppingCartService:ShoppingCartService) { }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(
@@ -31,12 +33,29 @@ export class BookDetailComponent implements OnInit {
     this.boookService.getBookById(this.bookId).subscribe(
       res=>{
           this.book = res.json();
+          let currentStock = this.book.inStockNumber;
+          if(!(currentStock >0)){
+            this.notEnoughStock = true;
+          }
       },
       error=>{
         console.log(error);
       }
     );
     this.qty=1;
+  }
+
+
+  onAddToCart(){
+      this.shoppingCartService.addCartItem(this.bookId,this.qty).subscribe(
+        res=>{
+            this.addBookSuccess = true;
+        },
+        error=>{
+            this.addBookSuccess = false;
+            console.log(error);
+        }
+      );
   }
 
 }

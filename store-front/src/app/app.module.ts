@@ -21,7 +21,8 @@ import {  DataTableModule } from 'angular2-datatable';
 import { DataFilterPipe } from './book-list/data-filter.pipe';
 import { BookService } from './book.service';
 import { BookDetailComponent } from './book-detail/book-detail.component';
-import { SearchFilterPipe } from './nav-bar/search-filter.pipe';
+import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
+import { ShoppingCartService } from './shopping-cart.service';
 
 
 @NgModule({
@@ -34,7 +35,7 @@ import { SearchFilterPipe } from './nav-bar/search-filter.pipe';
     BookListComponent,
     DataFilterPipe,
     BookDetailComponent,
-    SearchFilterPipe
+    ShoppingCartComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +45,7 @@ import { SearchFilterPipe } from './nav-bar/search-filter.pipe';
     AppRoutingModule,
     DataTableModule
   ],
-  providers: [LoginService,UserService,PaymentService,ShippingService,BookService],
+  providers: [LoginService,UserService,PaymentService,ShippingService,BookService,ShoppingCartService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -5,6 +5,7 @@ import { BookListComponent } from './book-list/book-list.component';
 import { HomeComponent } from './home/home.component';
 import { MyAccountComponent } from './my-account/my-account.component';
 import { MyProfileComponent } from './my-profile/my-profile.component';
+import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 
 
 const routes: Routes = [
@@ -13,7 +14,8 @@ const routes: Routes = [
   { path : 'myAccount' , component: MyAccountComponent},
   { path : 'myProfile' , component: MyProfileComponent},
   { path : 'bookList' , component: BookListComponent},
-  { path : 'viewBook/:id' , component: BookDetailComponent}
+  { path : 'viewBook/:id' , component: BookDetailComponent},
+  { path : 'shoppingCart' , component: ShoppingCartComponent}
 
 ];
 

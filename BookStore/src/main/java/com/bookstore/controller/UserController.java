@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bookstore.config.SecurityUtility;
+import com.bookstore.domain.ShoppingCart;
 import com.bookstore.domain.User;
 import com.bookstore.domain.UserPayment;
 import com.bookstore.domain.UserShipping;
