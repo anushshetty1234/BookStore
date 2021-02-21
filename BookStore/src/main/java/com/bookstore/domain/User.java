@@ -57,6 +57,9 @@ public class User implements UserDetails,Serializable {
 	@OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
 	private ShoppingCart shoppingCart; 
 	
+	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+	private List<Order> order;
+	
 	public Long getId() {
 		return id;
 	}
@@ -126,9 +129,15 @@ public class User implements UserDetails,Serializable {
 	public void setShoppingCart(ShoppingCart shoppingCart) {
 		this.shoppingCart = shoppingCart;
 	}
+	public List<Order> getOrder() {
+		return order;
+	}
+	public void setOrder(List<Order> order) {
+		this.order = order;
+	}
+	
 	
 	//spring security related methods
-	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		

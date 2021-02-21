@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title data-th-remove="all">Order confirmation email</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+        <div style="background-color: #ccc"
+             data-th-style="|background-color: #ccc|">
+            <div style="padding: 40px;">
+                <div style="margin-left: auto; margin-right: auto; min-width: 320px; border: solid 1px #555; border-radius: 6px;">
+                    <div style="background-color: #555; padding: 4px 4px 2px 4px;">
+                        <div style="background-image: url(images/logo.png);"
+                             data-th-style="|background-image: url(cid:logo-background)|">
+                            <img style="border: solid 1px #555; border-radius: 6px;"
+                                 src="sample.png" data-th-src="|cid:${imageResourceName}|" />
+                        </div>
+                    </div>
+                    <div style="padding: 15px 15px 30px 15px; font-family: Verdana, Arial, Helvetica, sans-serif; font-size:1em; background-color: #fff; color:#333;">
+                        <p>Hello<span th:text="${name}"></span>,</p>
+                        <p>
+                            You are order has been placed successfully.
+                        </p>
+                            <div th:object="${order}">
+                            <p><strong>Order details:</strong> </p>
+                            <p>Order Id: <span th:text="*{id}"></span></p>
+                            <p>Shipping date: <span th:text="*{shippingDate}"></span></p>
+                            <p>Shipping type: <span th:text="*{shippingMethod}"></span></p>
+                            <p>Total cost: <span th:text="*{orderTotal}"></span></p>
+                          </div>
+                          <div th:object="${shipping}">
+                            <p><strong>Shipping address:</strong> </p>
+                            <p>SteetName1: <span th:text="*{userShippingStreet1}"></span></p>
+                            <p>SteetName2: <span th:text="*{userShippingStreet2}"></span></p>
+                            <p>City: <span th:text="*{userShippingCity}"></span>,
+                            State: <span th:text="*{userShippingState}"></span>,
+                            Counrty: <span th:text="*{userShippingCountry}"></span></p>
+                            <p>Zipcode: <span th:text="*{userShippingZipcode}"></span></p>
+                          </div>
+                          <div>
+                            <p><strong>Product list:</strong> </p>
+  
+                            <table>
+                              <tr>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Subtotal</th>
+                              </tr>
+                              <tr th:each="book : ${BookList}">
+                                <td th:text="${book.title}"></td>
+                                <td th:text="${book.ourPrice}"></td>
+                                <td th:text="${book.qty}"></td>
+                                <td th:text="${book.subtotal}"></td>
+                              </tr>
+                            </table>
+     
+                            <p>
+                                Regards, <br />
+                                &emsp; <em>The Bookstore</em>
+                            </p>
+                              </div>
+                          </div>
+                   
+                    </div>
+                  
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

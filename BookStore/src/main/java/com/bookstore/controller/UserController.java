@@ -79,9 +79,6 @@ public class UserController {
 		UserRole userRole = new UserRole(user, role);
 		Set<UserRole> userRoles=new HashSet<UserRole>();
 		
-		user.setUserPaymentList(new ArrayList<UserPayment>());
-		user.setUserShippingList(new ArrayList<UserShipping>());
-		
 		userRoles.add(userRole);
 		
 		userService.CreateUser(user, userRoles);

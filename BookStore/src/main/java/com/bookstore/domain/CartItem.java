@@ -30,17 +30,15 @@ public class CartItem implements Serializable{
 	private Book book;
 	
 	@ManyToOne
-	@JoinColumn(name="shopping_cart_id")
+	//@JoinColumn(name="shopping_cart_id")
 	@JsonIgnore
 	private ShoppingCart shoppingCart;
 	
-	/*
-	 * @ManyToOne
-	 * 
-	 * @JoinColumn(name = "order_id")
-	 * 
-	 * @JsonIgnore private Order order;
-	 */	
+	@ManyToOne
+    @JoinColumn(name = "order_id") 
+	@JsonIgnore 
+	private Order order;
+	 	
 	public Long getId() {
 		return id;
 	}
@@ -81,11 +79,13 @@ public class CartItem implements Serializable{
 		this.shoppingCart = shoppingCart;
 	}
 
-	/*
-	 * public Order getOrder() { return order; }
-	 * 
-	 * public void setOrder(Order order) { this.order = order; }
-	 */
+	public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
+	}
 	
 }
 

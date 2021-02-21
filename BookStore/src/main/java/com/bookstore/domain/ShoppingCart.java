@@ -25,7 +25,7 @@ public class ShoppingCart implements Serializable{
 	private Long id;
 	private BigDecimal GrandTotal;
 	
-	@OneToMany(mappedBy = "shoppingCart", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@OneToMany(mappedBy = "shoppingCart", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JsonIgnore
 	private List<CartItem> cartItemList;
 	

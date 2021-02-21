@@ -74,11 +74,8 @@ public class ShoppingCartController {
 					ShoppingCart	cart = shoppingCartServiceImpl.loadShoppngCartSerice(user);
 					Long bookId = Long.parseLong(mapper.get("bookId"));
 					int quantity = Integer.parseInt(mapper.get("quantity"));
-					LOG.error("Error 1");
 					CartItem newCartItem =	cartItemServiceImpl.createCartItem(bookId,quantity,cart);
-					LOG.error("Error 2");
 					cartItemServiceImpl.addItemToCart(cart,newCartItem);
-					LOG.error("Error 3");
 					return new ResponseEntity("Added book to cart successfully",HttpStatus.OK);
 				}
 				catch(Exception e ) {

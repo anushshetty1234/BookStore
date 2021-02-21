@@ -33,7 +33,6 @@ private static final long serialVersionUID = 498745987L;
 	@JsonIgnore
 	private User user;
 
-
 	public Long getId() {
 		return id;
 	}
