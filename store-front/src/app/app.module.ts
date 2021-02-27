@@ -26,6 +26,7 @@ import { ShoppingCartService } from './shopping-cart.service';
 import { OrderComponent } from './order/order.component';
 import { CheckoutService } from './checkout.service';
 import { OrderSummaryComponent } from './order-summary/order-summary.component';
+import { OrderService } from './order.service';
 
 
 @NgModule({
@@ -50,7 +51,7 @@ import { OrderSummaryComponent } from './order-summary/order-summary.component';
     AppRoutingModule,
     DataTableModule
   ],
-  providers: [LoginService,UserService,PaymentService,ShippingService,BookService,ShoppingCartService,CheckoutService],
+  providers: [LoginService,UserService,PaymentService,ShippingService,BookService,ShoppingCartService,CheckoutService,OrderService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

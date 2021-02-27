@@ -3,10 +3,13 @@ import { Router } from '@angular/router';
 import { error } from 'protractor';
 import { AppConst } from '../constants/app-const';
 import { LoginService } from '../login.service';
+import { CartItem } from '../models/cart-item';
+import { Order } from '../models/order';
 import { User } from '../models/user';
 import { UserBilling } from '../models/user-billing';
 import { UserPayment } from '../models/user-payment';
 import { UserShipping } from '../models/user-shipping';
+import { OrderService } from '../order.service';
 import { PaymentService } from '../payment.service';
 import { ShippingService } from '../shipping.service';
 import { UserService } from '../user.service';
@@ -49,8 +52,16 @@ export class MyProfileComponent implements OnInit {
   private defaultUserShippingId: number;
   private userShipping: UserShipping = new UserShipping();
   
+
+  //order
+  private orderList:Order[] = [];
+  private order:Order = new Order();
+  private displayOrderDetail:boolean = false;
+  private cartItemList:CartItem[] = [];
+
   constructor(private userService:UserService,private loginService:LoginService,
-              private paymentService:PaymentService,private shippingService:ShippingService,private router:Router) { }
+              private paymentService:PaymentService,private shippingService:ShippingService
+              ,private orderService:OrderService,private router:Router) { }
 
   onUpdateUserInfo(){
       this.user.password = this.currentPassword;
@@ -75,7 +86,7 @@ export class MyProfileComponent implements OnInit {
           this.user = res.json();
           this.userPaymentList = this.user.userPaymentList;
           this.userShippingList = this.user.userShippingList;
-          
+          this.orderList = this.user.orderList;
           for (let index in this.userPaymentList) {
             if(this.userPaymentList[index].defaultPayment) {
               this.defaultUserPaymentId = this.userPaymentList[index].id;
@@ -89,7 +100,7 @@ export class MyProfileComponent implements OnInit {
               break;
             }
           }
-        
+
           this.dataFetched = true;
       },
       error=>{
@@ -213,5 +224,14 @@ export class MyProfileComponent implements OnInit {
       }
     );
   }
+
+  //order
+
+  onDisplayOrder(order:Order){
+    this.order = order;
+    this.cartItemList = order.cartItemList;
+    this.displayOrderDetail=true;
+  }
+
 
 }

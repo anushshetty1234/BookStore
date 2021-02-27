@@ -1,3 +1,4 @@
+import { Order } from "./order";
 import { ShoppingCart } from "./shopping-cart";
 import { UserPayment } from "./user-payment";
 import { UserShipping } from "./user-shipping";
@@ -15,5 +16,6 @@ export class User {
 	public userPaymentList: UserPayment[];
 	public userShippingList: UserShipping[];
 	public shoppingCart: ShoppingCart;
+	public orderList: Order[];
 }
 

@@ -58,7 +58,7 @@ public class User implements UserDetails,Serializable {
 	private ShoppingCart shoppingCart; 
 	
 	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-	private List<Order> order;
+	private List<Order> orderList;
 	
 	public Long getId() {
 		return id;
@@ -129,11 +129,11 @@ public class User implements UserDetails,Serializable {
 	public void setShoppingCart(ShoppingCart shoppingCart) {
 		this.shoppingCart = shoppingCart;
 	}
-	public List<Order> getOrder() {
-		return order;
+	public List<Order> getOrderList() {
+		return orderList;
 	}
-	public void setOrder(List<Order> order) {
-		this.order = order;
+	public void setOrderList(List<Order> orderList) {
+		this.orderList = orderList;
 	}
 	
 	

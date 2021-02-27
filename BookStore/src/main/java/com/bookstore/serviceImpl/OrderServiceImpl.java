@@ -19,6 +19,7 @@ import com.bookstore.domain.UserBilling;
 import com.bookstore.domain.UserPayment;
 import com.bookstore.domain.UserShipping;
 import com.bookstore.repository.BillingRepository;
+import com.bookstore.repository.CartItemRepository;
 import com.bookstore.repository.OrderRepository;
 import com.bookstore.repository.PaymentRepository;
 import com.bookstore.repository.ShippingRepository;
@@ -44,6 +45,12 @@ public class OrderServiceImpl implements OrderService {
 	PaymentRepository paymentRepo;
 	
 	@Autowired
+	UserServiceImpl userServiceImpl;
+	
+	@Autowired
+	CartItemRepository cartItemRepo;
+	
+	@Autowired
 	ShopingCartServiceImpl cartServiceImpl;
 	
 	public Order createOrder(String shippingMethod, UserShipping shippingAddress, UserBilling userBilling,
@@ -51,11 +58,7 @@ public class OrderServiceImpl implements OrderService {
 		
 		Order order = null;
 		try {
-		
-			userBilling = billingRepo.save(userBilling);
-			shippingAddress = shippingRepo.save(shippingAddress);
-			payment = paymentRepo.save(payment);
-					
+				
 			order = new Order();
 
 			LocalDateTime timestamp = LocalDateTime.now();
@@ -65,15 +68,14 @@ public class OrderServiceImpl implements OrderService {
 			order.setShippingAddress(shippingAddress);
 			order.setShippingMethod(shippingMethod);
 			order.setCartItemList(cart.getCartItemList());
-	
-			for(CartItem eachItem:cart.getCartItemList()) {
-				eachItem.setOrder(order);
-			}
-			cartServiceImpl.clearShoppingCart(cart);
-			
 			order.setOrderTotal(cart.getGrandTotal());
 			order.setOrderDate(timestamp);
 			order.setUser(user);
+			
+			for(CartItem eachItem:cart.getCartItemList()) {
+				eachItem.setOrder(order);
+				cartItemRepo.save(eachItem);
+			}
 
 			LocalDate today = LocalDate.now();
 			
@@ -85,7 +87,9 @@ public class OrderServiceImpl implements OrderService {
 			order.setOrderStatus("placed");
 			
 			order = orderRepo.save(order);
+			userServiceImpl.save(user);
 			
+			cartServiceImpl.clearShoppingCart(cart);
 		} catch (Exception e) {
 			log.error("Error occured when persisting order " + e + e.getMessage());
 		}

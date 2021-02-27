@@ -5,6 +5,7 @@ import { BookListComponent } from './book-list/book-list.component';
 import { HomeComponent } from './home/home.component';
 import { MyAccountComponent } from './my-account/my-account.component';
 import { MyProfileComponent } from './my-profile/my-profile.component';
+import { OrderSummaryComponent } from './order-summary/order-summary.component';
 import { OrderComponent } from './order/order.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 
@@ -17,9 +18,8 @@ const routes: Routes = [
   { path : 'bookList' , component: BookListComponent},
   { path : 'viewBook/:id' , component: BookDetailComponent},
   { path : 'shoppingCart' , component: ShoppingCartComponent},
-  { path : 'checkout' , component: OrderComponent}
-  
-
+  { path : 'checkout' , component: OrderComponent},
+  { path : 'orderResult' , component: OrderSummaryComponent}
 ];
 
 @NgModule({

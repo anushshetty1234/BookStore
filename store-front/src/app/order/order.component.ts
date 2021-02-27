@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CheckoutService } from '../checkout.service';
 import { AppConst } from '../constants/app-const';
 import { Book } from '../models/book';
@@ -38,7 +39,9 @@ export class OrderComponent implements OnInit {
   private shippingMethod:string;
   private order:Order = new Order();
 
-  constructor(private userService:UserService,private shoppingCartService:ShoppingCartService,private checkoutService:CheckoutService) { }
+
+  constructor(private userService:UserService,private shoppingCartService:ShoppingCartService,private checkoutService:CheckoutService
+      ,private router:Router) { }
 
   ngOnInit() {
     this.getCurrentUser();
@@ -56,6 +59,7 @@ export class OrderComponent implements OnInit {
   goToReview(){
     this.selectedTab = 2;
   }
+
 
   setShippingAddress(setShipping:UserShipping){
     this.shippingAddress = setShipping;
@@ -143,10 +147,12 @@ export class OrderComponent implements OnInit {
   onSubmit(){
     this.checkoutService.checkout(this.shippingMethod,this.shippingAddress,this.payment,this.billingAddress).subscribe(
       res=>{
-
+          this.order = res.json();
+          this.router.navigate(['/orderResult'],{queryParams:{order:JSON.stringify(this.order)}});
       },
       error=>{
-
+          this.order.orderStatus = "failed";
+          this.router.navigate(['/orderResult'],{queryParams:{order:JSON.stringify(this.order)}});
       }
     );
 

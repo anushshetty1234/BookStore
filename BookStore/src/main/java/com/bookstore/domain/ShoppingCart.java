@@ -29,7 +29,7 @@ public class ShoppingCart implements Serializable{
 	@JsonIgnore
 	private List<CartItem> cartItemList;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JsonIgnore
 	private User user;
 

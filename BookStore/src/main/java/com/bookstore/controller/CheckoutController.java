@@ -2,7 +2,7 @@ package com.bookstore.controller;
 
 import java.security.Principal;
 import java.util.HashMap;
-import java.util.Locale;
+import java.util.List;
 
 import javax.mail.MessagingException;
 
@@ -20,10 +20,10 @@ import com.bookstore.domain.User;
 import com.bookstore.domain.UserBilling;
 import com.bookstore.domain.UserPayment;
 import com.bookstore.domain.UserShipping;
-import com.bookstore.service.UserService;
 import com.bookstore.serviceImpl.EmailService;
 import com.bookstore.serviceImpl.OrderServiceImpl;
 import com.bookstore.serviceImpl.ShopingCartServiceImpl;
+import com.bookstore.serviceImpl.UserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
@@ -33,7 +33,7 @@ public class CheckoutController {
 	private static final Logger log = LoggerFactory.getLogger(CheckoutController.class);
 	
 	@Autowired
-	private UserService userService;
+	UserServiceImpl userServiceImpl;
 	
 	@Autowired
 	private OrderServiceImpl orderServiceImpl;
@@ -51,7 +51,7 @@ public class CheckoutController {
 			String username = principal.getName();
 
 			if (username != null) {
-				User user = userService.findUserByUsername(principal.getName());
+				User user = userServiceImpl.findUserByUsername(principal.getName());
 
 				ObjectMapper mapper = new ObjectMapper();
 				if (map != null) {
@@ -62,10 +62,7 @@ public class CheckoutController {
 						UserPayment payment = mapper.convertValue(map.get("userPayment"),UserPayment.class);
 						ShoppingCart cart = shoppingCartServiceImpl.loadShoppngCartSerice(user);
 						
-						
-						
 						order = orderServiceImpl.createOrder(shippingMethod,shippingAddress,userBilling,payment,cart,user);
-						
 						
 						String emailSent=emailSearvice.sendMail(order,user,shippingAddress,order.getCartItemList());
 						
@@ -82,6 +79,18 @@ public class CheckoutController {
 		return order;
 	}
 	
-	
-	
+	@RequestMapping(value = "/getOrderList",method = RequestMethod.GET)
+	public List<Order> getOrderList(Principal principal){
+		try {
+			if (principal != null) {
+				String username = principal.getName();
+				User user = userServiceImpl.findUserByUsername(username);
+				return user.getOrderList();
+			}
+		} catch (Exception e) {
+			log.error("failed to get orderList " + e.getMessage() + e);
+		}
+		return null;
+		
+	}
 }

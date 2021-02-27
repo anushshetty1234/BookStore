@@ -26,7 +26,7 @@ public class UserBilling implements Serializable{
 	private String userBillingCountry;
 	private String userBillingZipcode;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JsonIgnore
 	private UserPayment userPayment;
 

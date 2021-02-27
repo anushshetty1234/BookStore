@@ -30,7 +30,6 @@ public class CartItem implements Serializable{
 	private Book book;
 	
 	@ManyToOne
-	//@JoinColumn(name="shopping_cart_id")
 	@JsonIgnore
 	private ShoppingCart shoppingCart;
 	

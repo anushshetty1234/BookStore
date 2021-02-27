@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
 			  
 			  user.setUserPaymentList(new ArrayList<UserPayment>());
 			  user.setUserShippingList(new ArrayList<UserShipping>());
-			  user.setOrder(new ArrayList<Order>());
+			  user.setOrderList(new ArrayList<Order>());
 			  
 			localUser=userRepository.save(user);
 		}
