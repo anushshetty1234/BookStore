@@ -3,9 +3,14 @@ package com.bookstore.serviceImpl;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,13 +41,13 @@ public class OrderServiceImpl implements OrderService {
 	OrderRepository orderRepo;
 	
 	@Autowired
-	BillingRepository billingRepo;
+	BillingServiceImpl billingServiceImpl;
 	
 	@Autowired
-	ShippingRepository shippingRepo;
+	ShippingServiceImpl shippingServiceImpl;
 	
 	@Autowired
-	PaymentRepository paymentRepo;
+	PaymentServiceImpl paymentServiceImpl;
 	
 	@Autowired
 	UserServiceImpl userServiceImpl;
@@ -58,14 +63,49 @@ public class OrderServiceImpl implements OrderService {
 		
 		Order order = null;
 		try {
-				
+			
+			UserPayment savedUserPayement;
+			UserShipping savedUserShipping;
+			UserBilling saveduserBilling;
+			
+			Long idPayment = payment.getId();
+			Long idShipping = shippingAddress.getId();
+			Long idBilling = userBilling.getId();
+			
+			if(idShipping != null) {
+				savedUserShipping = shippingServiceImpl.findUserShipping(idShipping);
+				myCopyProperties(shippingAddress,savedUserShipping);
+				shippingServiceImpl.addNewShippingToUser(savedUserShipping, user);
+			}
+			else {
+				savedUserShipping = shippingAddress;
+				shippingServiceImpl.addNewShippingToUser(savedUserShipping, user);
+			}
+			
+			if(idBilling != null) {
+				saveduserBilling = billingServiceImpl.findUserBillingById(idBilling);
+				myCopyProperties(userBilling,saveduserBilling);
+			}
+			else {
+				saveduserBilling = userBilling;
+			}
+			if(idPayment != null) {
+				savedUserPayement = paymentServiceImpl.findById(idPayment);
+				myCopyProperties(payment,savedUserPayement);
+				paymentServiceImpl.updateUserPayment(user, saveduserBilling, savedUserPayement);
+			}
+			else {		
+				savedUserPayement = payment;
+				paymentServiceImpl.updateUserPayment(user, saveduserBilling, savedUserPayement);
+			}
+					
 			order = new Order();
 
 			LocalDateTime timestamp = LocalDateTime.now();
 
-			order.setBillingAddress(userBilling);
-			order.setPayment(payment);
-			order.setShippingAddress(shippingAddress);
+			order.setBillingAddress(saveduserBilling);
+			order.setPayment(savedUserPayement);
+			order.setShippingAddress(savedUserShipping);
 			order.setShippingMethod(shippingMethod);
 			order.setCartItemList(cart.getCartItemList());
 			order.setOrderTotal(cart.getGrandTotal());
@@ -96,6 +136,23 @@ public class OrderServiceImpl implements OrderService {
 		return order;
 	}
 
+	public static String[] getNullPropertyNames (Object source) {
+	    final BeanWrapper src = new BeanWrapperImpl(source);
+	    java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();
+
+	    Set<String> emptyNames = new HashSet<String>();
+	    for(java.beans.PropertyDescriptor pd : pds) {
+	        Object srcValue = src.getPropertyValue(pd.getName());
+	        if (srcValue == null) emptyNames.add(pd.getName());
+	    }
+
+	    String[] result = new String[emptyNames.size()];
+	    return emptyNames.toArray(result);
+	}
+
+	public static void myCopyProperties(Object src, Object target) {
+	    BeanUtils.copyProperties(src, target, getNullPropertyNames(src));
+	}
 	
 	
 }

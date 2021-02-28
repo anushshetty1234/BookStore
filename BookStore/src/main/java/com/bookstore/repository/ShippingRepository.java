@@ -9,5 +9,6 @@ import com.bookstore.domain.UserShipping;
 public interface ShippingRepository extends CrudRepository<UserShipping, Long> {
 
 	void removeById(Long id);
+	UserShipping findUserShippingById(Long id);
 	
 }

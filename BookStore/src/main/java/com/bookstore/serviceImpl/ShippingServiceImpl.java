@@ -26,6 +26,10 @@ public class ShippingServiceImpl implements ShippingService{
 		shippingRepo.save(userShipping);
 	}
 
+	public UserShipping findUserShipping(Long id) {
+		return shippingRepo.findUserShippingById(id);
+	}
+	
 	@Override
 	public void addNewShippingToUser(UserShipping userShipping, User user) {
 		userShipping.setUser(user);

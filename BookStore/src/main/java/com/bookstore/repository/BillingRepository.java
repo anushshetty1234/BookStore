@@ -9,4 +9,6 @@ import com.bookstore.domain.UserBilling;
 @Repository
 public interface BillingRepository extends CrudRepository<UserBilling, Long> {
 
+	UserBilling findUserBillingById(Long id);
+	
 }

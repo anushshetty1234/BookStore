@@ -76,7 +76,7 @@ public class PaymentServiceImpl implements PaymentService{
         else{
         	userPayment.setDefaultPayment(true);
         	for(UserPayment eachPaymnet:paymentList) {
-        			eachPaymnet.setDefaultPayment(false);
+        		eachPaymnet.setDefaultPayment(false);
         	}    
         	user.getUserPaymentList().add(userPayment);
         	userRepository.save(user);
