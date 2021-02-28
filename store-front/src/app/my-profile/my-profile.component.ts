@@ -231,6 +231,8 @@ export class MyProfileComponent implements OnInit {
     this.order = order;
     this.cartItemList = order.cartItemList;
     this.displayOrderDetail=true;
+    let el = document.getElementById("orderDetails");
+    el.scrollIntoView({behavior: "smooth"});
   }
 
 

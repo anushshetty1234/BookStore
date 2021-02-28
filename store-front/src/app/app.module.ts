@@ -27,6 +27,7 @@ import { OrderComponent } from './order/order.component';
 import { CheckoutService } from './checkout.service';
 import { OrderSummaryComponent } from './order-summary/order-summary.component';
 import { OrderService } from './order.service';
+import { ProgressSpinnerDialogComponent } from './progress-spinner-dialog/progress-spinner-dialog.component';
 
 
 @NgModule({
@@ -41,8 +42,10 @@ import { OrderService } from './order.service';
     BookDetailComponent,
     ShoppingCartComponent,
     OrderComponent,
-    OrderSummaryComponent
+    OrderSummaryComponent,
+    ProgressSpinnerDialogComponent
   ],
+  entryComponents: [ProgressSpinnerDialogComponent],
   imports: [
     BrowserModule,
     FormsModule,

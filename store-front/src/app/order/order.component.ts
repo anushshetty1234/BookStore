@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MdDialog, MdDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
 import { CheckoutService } from '../checkout.service';
 import { AppConst } from '../constants/app-const';
@@ -10,6 +11,7 @@ import { User } from '../models/user';
 import { UserBilling } from '../models/user-billing';
 import { UserPayment } from '../models/user-payment';
 import { UserShipping } from '../models/user-shipping';
+import { ProgressSpinnerDialogComponent } from '../progress-spinner-dialog/progress-spinner-dialog.component';
 import { ShoppingCartService } from '../shopping-cart.service';
 import { UserService } from '../user.service';
 
@@ -41,7 +43,7 @@ export class OrderComponent implements OnInit {
 
 
   constructor(private userService:UserService,private shoppingCartService:ShoppingCartService,private checkoutService:CheckoutService
-      ,private router:Router) { }
+      ,private router:Router, private dialog: MdDialog) { }
 
   ngOnInit() {
     this.getCurrentUser();
@@ -145,14 +147,22 @@ export class OrderComponent implements OnInit {
   }
 
   onSubmit(){
+    
+    let dialogRef: MdDialogRef<ProgressSpinnerDialogComponent> = this.dialog.open(ProgressSpinnerDialogComponent, {
+      disableClose: true
+    });
+
+
     this.checkoutService.checkout(this.shippingMethod,this.shippingAddress,this.payment,this.billingAddress).subscribe(
       res=>{
           this.order = res.json();
           this.router.navigate(['/orderResult'],{queryParams:{order:JSON.stringify(this.order)}});
+          dialogRef.close();
       },
       error=>{
           this.order.orderStatus = "failed";
           this.router.navigate(['/orderResult'],{queryParams:{order:JSON.stringify(this.order)}});
+          dialogRef.close();
       }
     );
 
