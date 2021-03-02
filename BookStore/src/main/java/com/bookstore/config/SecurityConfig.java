@@ -48,12 +48,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 			.antMatchers(PUBLIC_MATHCES).permitAll()
-			.anyRequest().authenticated()
-			.and();
+			.antMatchers("/admin/token").hasAuthority("ROLE_ADMIN")	
+			.anyRequest().authenticated();
+
 		http.csrf().disable()
 		    .cors()
 		    .and()
 			.httpBasic();
+
 		
 	}
 	 

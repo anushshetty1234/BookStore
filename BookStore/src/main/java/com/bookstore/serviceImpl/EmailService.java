@@ -41,7 +41,7 @@ public class EmailService {
         this.javaMailSender = javaMailSender;
     }
 
-    public String sendMail(Order order,User user,UserShipping shipping,List<CartItem> cartList) throws MessagingException {
+    public String sendOrderConfirmation(Order order,User user,UserShipping shipping,List<CartItem> cartList) throws MessagingException {
         Context context = new Context();
         context.setVariable("name", user.getFirstName());
         context.setVariable("order", order);
@@ -80,7 +80,49 @@ public class EmailService {
         
         helper.setSubject("Order confirmation for Order id- "+order.getId());
         helper.setText(htmlContent, true);
-        helper.setTo("anushshetty75@gmail.com");
+        helper.setTo(user.getEmail());
+		
+		  InputStreamSource imageSource = null;
+		  try {
+			  imageSource = new ByteArrayResource(result.getBytes());
+			  }
+		  catch (Exception e) {
+			  log.error("Error in email service"+e.getMessage()); 
+		  }
+		    
+         helper.addInline(result.getName(), imageSource, result.getContentType());
+        
+        javaMailSender.send(mimeMessage);
+        return "Sent";
+    }
+    
+    public String sendPassword(User user,String password) throws MessagingException {
+        Context context = new Context();
+        context.setVariable("username", user.getUsername());
+        context.setVariable("password", password);
+        
+        MultipartFile result = null;
+        try {
+        String logoPath = "images/logo.png";
+        String name = "logo.png";
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource(logoPath).getFile());
+        byte[] content =  Files.readAllBytes(file.toPath());
+        result = new MockMultipartFile("logo",name,"image/png", content);
+        context.setVariable("imageResourceName",result.getName());
+        System.out.println("File Found : " + file.exists());
+        }
+        catch(Exception e) {
+  		  log.error("Error in email service"+e.getMessage()); 
+        }
+        
+        String htmlContent = templateEngine.process("emails/credentials-email", context);
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+        
+        helper.setSubject("BookStore new account ");
+        helper.setText(htmlContent, true);
+        helper.setTo(user.getEmail());
 		
 		  InputStreamSource imageSource = null;
 		  try {

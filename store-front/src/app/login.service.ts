@@ -3,9 +3,13 @@ import { Http,Headers } from '@angular/http';
 import { Router } from '@angular/router';
 import { AppConst } from './constants/app-const';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class LoginService {
+
+
+  checkSessionInNavBar = new Subject();
 
   private serverPath = AppConst.serverPath;
 

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { LoginService } from "./../login.service";
 
 @Component({
@@ -11,7 +12,9 @@ export class LoginComponent implements OnInit {
  private credentials={"username":"","password":""};
  private loggedIn:boolean=false;
 
-  constructor(private loginService:LoginService) { }
+  constructor(private loginService:LoginService,private router: Router) { 
+
+  }
 
   onSubmit(){
     this.loginService.sendCredentials(this.credentials.username,this.credentials.password).
@@ -20,10 +23,12 @@ export class LoginComponent implements OnInit {
             console.log(res.json());
             localStorage.setItem("xAuthToken", res.json().token);
             this.loggedIn=true;
-            location.reload();
+            this.loginService.checkSessionInNavBar.next();
+            this.router.navigate(['/login']);
           },
           error => {
             console.log(error);
+            this.loggedIn=false;
           }
       );
   
@@ -37,6 +42,7 @@ export class LoginComponent implements OnInit {
       },
       error=>{
         console.log(error);
+        this.loggedIn=false;
       }
     );
   }

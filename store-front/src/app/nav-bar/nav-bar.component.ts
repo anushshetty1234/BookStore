@@ -15,7 +15,20 @@ export class NavBarComponent implements OnInit {
   private keyword:string="";
   private bookList:Book[] = new Array();
 
-  constructor(private loginService:LoginService,private bookService:BookService,private route:Router) { }
+  constructor(private loginService:LoginService,private bookService:BookService,private route:Router) { 
+    this.loginService.checkSessionInNavBar.subscribe(
+      ()=>{
+        this.loginService.checkSession().subscribe(
+          res=>{
+            this.loggedIn=true;
+          },
+          error=>{
+            console.log(error);
+          }
+        );
+      }
+    );
+  }
 
 
   logout(){

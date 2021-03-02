@@ -64,9 +64,9 @@ public class CheckoutController {
 						
 						order = orderServiceImpl.createOrder(shippingMethod,shippingAddress,userBilling,payment,cart,user);
 						
-						String emailSent=emailSearvice.sendMail(order,user,shippingAddress,order.getCartItemList());
+						String emailSent=emailSearvice.sendOrderConfirmation(order,user,shippingAddress,order.getCartItemList());
 						
-						log.debug("Email status-"+emailSent);
+						log.info("Order confirmation Email status-"+emailSent);
 
 					
 					} catch (Exception e) {

@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
 import {Http,Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 
 @Injectable()
 export class LoginService {
 
+  checkSessionInNavBar = new Subject();
+
   constructor(private http:Http) { }
 
   sendCredentials(username:String,password:String){
-      let url="http://localhost:8181/token";
+      let url="http://localhost:8181/admin/token";
       let encodedCred=btoa(username+":"+password);
       let basicHeader="Basic "+encodedCred;
       let header=new Headers({
@@ -20,7 +23,7 @@ export class LoginService {
   }
 
   checkSession(){
-    let url="http://localhost:8181/checkSession";
+    let url="http://localhost:8181/admin/checkSession";
     let header=new Headers({
       'X-Auth-Token':  localStorage.getItem('xAuthToken')
     });

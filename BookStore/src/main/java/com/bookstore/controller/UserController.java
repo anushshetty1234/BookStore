@@ -1,11 +1,11 @@
 package com.bookstore.controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -13,8 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,15 +21,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bookstore.config.SecurityUtility;
-import com.bookstore.domain.ShoppingCart;
 import com.bookstore.domain.User;
-import com.bookstore.domain.UserPayment;
-import com.bookstore.domain.UserShipping;
 import com.bookstore.domain.security.Role;
 import com.bookstore.domain.security.UserRole;
 import com.bookstore.service.UserService;
-import com.bookstore.serviceImpl.UserSecurityService;
-import com.bookstore.utility.MailConstructor;
+import com.bookstore.serviceImpl.EmailService;
+
 
 
 @RestController
@@ -44,11 +39,7 @@ public class UserController {
 	private UserService userService;
 	
 	@Autowired
-	private MailConstructor mailConstructor;
-	
-	@Autowired
-	private JavaMailSender mailSender;
-	
+	private EmailService emailService;
 	
 	@Transactional
 	@RequestMapping("/newUser")
@@ -83,9 +74,15 @@ public class UserController {
 		
 		userService.CreateUser(user, userRoles);
 		
-		SimpleMailMessage sendMail=mailConstructor.constructMailMessage(user, password);
-		mailSender.send(sendMail);
+		String emailResult = null;
+		try {
+			emailResult = emailService.sendPassword(user, password);
+		} catch (MessagingException e) {
+			log.error("Error while sendng credential email -"+e.getMessage());
+		}
 
+		log.info("Credential email result-"+emailResult);
+		
 		return new ResponseEntity("user Created",HttpStatus.OK);
 	}
 	
@@ -107,9 +104,14 @@ public class UserController {
 		user.setPassword(SecurityUtility.passwordEncoder().encode(password));
 		userService.save(user);
 		
-		SimpleMailMessage sendNewMail=mailConstructor.constructMailMessage(user, password);
-		mailSender.send(sendNewMail);
+		String emailResult = null;
+		try {
+			emailResult = emailService.sendPassword(user, password);
+		} catch (MessagingException e) {
+			log.error("Error while sendng credential email -"+e.getMessage());
+		}
 
+		log.info("Credential email result-"+emailResult);
 		
 		return new ResponseEntity("Email sent",HttpStatus.OK);
 	}

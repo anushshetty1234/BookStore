@@ -11,7 +11,20 @@ export class NavBarComponent implements OnInit {
 
   private loggedIn:boolean=false;
 
-  constructor(private loginService:LoginService,private router:Router) { }
+  constructor(private loginService:LoginService,private router:Router) { 
+    this.loginService.checkSessionInNavBar.subscribe(
+      ()=>{
+        this.loginService.checkSession().subscribe(
+          res=>{
+            this.loggedIn=true;
+          },
+          error=>{
+            console.log(error);
+          }
+        );
+      }
+    );
+  }
 
   ngOnInit() {
     this.loginService.checkSession().subscribe(
