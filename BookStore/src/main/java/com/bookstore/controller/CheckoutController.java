@@ -66,7 +66,7 @@ public class CheckoutController {
 						
 						String emailSent=emailSearvice.sendMail(order,user,shippingAddress,order.getCartItemList());
 						
-						log.debug("Email -"+emailSent);
+						log.debug("Email status-"+emailSent);
 
 					
 					} catch (Exception e) {

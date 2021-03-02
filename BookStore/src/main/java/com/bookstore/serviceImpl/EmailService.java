@@ -1,12 +1,8 @@
 package com.bookstore.serviceImpl;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,13 +59,20 @@ public class EmailService {
         
         context.setVariable("BookList",bookList);
         
-		/*
-		 * Path path = Paths.get("/images/logo.png"); String name = "logo.png"; byte[]
-		 * content = null; try { content = Files.readAllBytes(path); } catch (final
-		 * IOException e) { } MultipartFile result = new MockMultipartFile("logo",name,
-		 * "image/png", content); context.setVariable("imageResourceName",
-		 * result.getName());
-		 */
+        MultipartFile result = null;
+        try {
+        String logoPath = "images/logo.png";
+        String name = "logo.png";
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource(logoPath).getFile());
+        byte[] content =  Files.readAllBytes(file.toPath());
+        result = new MockMultipartFile("logo",name,"image/png", content);
+        context.setVariable("imageResourceName",result.getName());
+        System.out.println("File Found : " + file.exists());
+        }
+        catch(Exception e) {
+  		  log.error("Error in email service"+e.getMessage()); 
+        }
         
         String htmlContent = templateEngine.process("emails/order-confirmation", context);
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
@@ -78,13 +81,16 @@ public class EmailService {
         helper.setSubject("Order confirmation for Order id- "+order.getId());
         helper.setText(htmlContent, true);
         helper.setTo("anushshetty75@gmail.com");
-		/*
-		 * InputStreamSource imageSource = null; try { imageSource = new
-		 * ByteArrayResource(result.getBytes()); log.error("size="+result.getSize()); }
-		 * catch (IOException e) { // TODO Auto-generated catch block
-		 * e.printStackTrace(); }
-		 */    
-        //helper.addInline(result.getName(), imageSource, result.getContentType());
+		
+		  InputStreamSource imageSource = null;
+		  try {
+			  imageSource = new ByteArrayResource(result.getBytes());
+			  }
+		  catch (Exception e) {
+			  log.error("Error in email service"+e.getMessage()); 
+		  }
+		    
+         helper.addInline(result.getName(), imageSource, result.getContentType());
         
         javaMailSender.send(mimeMessage);
         return "Sent";

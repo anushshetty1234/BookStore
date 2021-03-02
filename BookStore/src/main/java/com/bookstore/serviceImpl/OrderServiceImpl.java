@@ -2,7 +2,6 @@ package com.bookstore.serviceImpl;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bookstore.controller.CheckoutController;
 import com.bookstore.domain.CartItem;
 import com.bookstore.domain.Order;
 import com.bookstore.domain.ShoppingCart;
@@ -23,13 +21,9 @@ import com.bookstore.domain.User;
 import com.bookstore.domain.UserBilling;
 import com.bookstore.domain.UserPayment;
 import com.bookstore.domain.UserShipping;
-import com.bookstore.repository.BillingRepository;
 import com.bookstore.repository.CartItemRepository;
 import com.bookstore.repository.OrderRepository;
-import com.bookstore.repository.PaymentRepository;
-import com.bookstore.repository.ShippingRepository;
 import com.bookstore.service.OrderService;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 
 @Service
 @Transactional

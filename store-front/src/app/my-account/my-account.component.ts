@@ -35,8 +35,7 @@ private recoverEmail:string;
         console.log("inside success of send creds"+res);
         localStorage.setItem("xAuthToken",res.json().token);
         this.loggedIn=true;
-        location.reload();
-      // this.router.navigate(['/home']); 
+        this.router.navigate(['/home']); 
       },
       error => {
       console.log(error);

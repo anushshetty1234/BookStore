@@ -24,8 +24,6 @@ export class OrderSummaryComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe(
       queryParams =>{
         this.order = JSON.parse(queryParams['order']);
-        console.log(JSON.stringify(this.order));
-        console.log(this.order.orderStatus);
         if(this.order.orderStatus == "placed"){
           this.orderResult = true;
         }
