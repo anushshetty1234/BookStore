@@ -42,6 +42,7 @@ export class BookListComponent implements OnInit {
   getBookList(){
     this.boookService.getBookList().subscribe(
       res=>{
+        console.log(res.json());
         this.bookList = res.json();
       },
       error=>{
